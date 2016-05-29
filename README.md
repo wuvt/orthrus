@@ -1,8 +1,8 @@
 # orthrus
 
-Orthus is the brother of Kerberos, but with only two heads. It's also a library
-that abstracts authentication against WUVT's central authentication, which is
-currently LDAP.
+Orthrus is the brother of Kerberos, but with only two heads. It's also a
+library that abstracts authentication against WUVT's central authentication,
+which is currently LDAP.
 
 ### License
 
