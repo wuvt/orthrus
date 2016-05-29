@@ -19,7 +19,7 @@ class Orthrus(object):
 
         self.server = ldap3.Server(ldap_uri, tls=tls_config)
 
-    def authenticate(self, user, password):
+    def authenticate(self, user, password, attributes=[]):
         user_dn = self.user_template_dn.format(user)
         conn = ldap3.Connection(self.server, user=user_dn,
                                 password=password,
@@ -28,11 +28,28 @@ class Orthrus(object):
         conn.start_tls()
 
         if conn.bind():
+            if len(attributes) > 0:
+                user_attrs = self.get_attributes(conn, user_dn, attributes)
+            else:
+                user_attrs = []
+
             roles = self.get_roles(conn, user)
+
             conn.unbind()
-            return True, roles
+            return True, user_attrs, roles
         else:
-            return False, []
+            return False, None, []
+
+    def get_attributes(self, conn, dn, attributes):
+        conn.search(search_base=dn,
+                    search_filter='(objectclass=*)',
+                    search_scope=ldap3.BASE,
+                    attributes=attributes)
+
+        if len(conn.response) > 0:
+            return conn.response[0]['attributes']
+        else:
+            return None
 
     def get_roles(self, conn, user):
         user_roles = []

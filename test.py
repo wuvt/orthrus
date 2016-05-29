@@ -16,5 +16,5 @@ o = orthrus.Orthrus(
     },
     verify=False)
 
-r = o.authenticate(user, password)
+r = o.authenticate(user, password, attributes=['cn', 'sn', 'title', 'mail'])
 print(r)
