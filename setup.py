@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="orthrus",
-    version="0.2",
+    version="0.3",
     packages=["orthrus"],
     install_requires=["ldap3>=1.3.1"],
     description="WUVT authentication library",
